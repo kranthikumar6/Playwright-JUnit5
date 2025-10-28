@@ -2,9 +2,10 @@ package com.playwright.catalog;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.junit.UsePlaywright;
-import com.playwright.HeadlessChromeOptions;
+import com.microsoft.playwright.options.LoadState;
 import com.playwright.catalog.pageobjects.ProductList;
 import com.playwright.catalog.pageobjects.SearchComponent;
+import com.playwright.fixtures.HeadlessChromeOptions;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.assertj.core.api.Assertions;
@@ -20,7 +21,7 @@ public class SearchForProductsTest {
 
     @BeforeEach
     void openHomePage(Page page) {
-        page.navigate("https://practicesoftwaretesting.com");
+        openPage(page);
     }
 
     @Nested
@@ -69,5 +70,11 @@ public class SearchForProductsTest {
             var matchingProducts = productList.getProductNames();
             Assertions.assertThat(matchingProducts).hasSize(9);
         }
+    }
+
+    private void openPage(Page page) {
+        page.navigate("https://practicesoftwaretesting.com");
+        page.waitForLoadState(LoadState.DOMCONTENTLOADED);
+        page.waitForSelector(".card-img-top");
     }
 }

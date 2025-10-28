@@ -1,8 +1,8 @@
-package com.playwright.api.login2;
+package com.playwright.api.login;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.RequestOptions;
-import com.playwright.api.login.User;
+import com.playwright.api.register.User;
 
 public class UserAPIClient {
     private final Page page;

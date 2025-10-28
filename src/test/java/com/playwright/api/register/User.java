@@ -1,4 +1,4 @@
-package com.playwright.api.login;
+package com.playwright.api.register;
 
 import net.datafaker.Faker;
 

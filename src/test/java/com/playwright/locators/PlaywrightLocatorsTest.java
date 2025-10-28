@@ -5,46 +5,14 @@ import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.SelectOption;
+import com.playwright.fixtures.PlaywrightTestRunner;
 import org.junit.jupiter.api.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PlaywrightLocatorsTest {
-
-    protected static Playwright playwright;
-    protected static Browser browser;
-    protected static BrowserContext browserContext;
-
-    Page page;
-
-    @BeforeAll
-    static void setUpBrowser() {
-        playwright = Playwright.create();
-        browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions().setHeadless(true)
-                        .setArgs(Arrays.asList("--no-sandbox", "--disable-extensions", "--disable-gpu"))
-        );
-    }
-
-    @BeforeEach
-    void setUp() {
-        browserContext = browser.newContext();
-        page = browserContext.newPage();
-    }
-
-    @AfterEach
-    void closeContext() {
-        browserContext.close();
-    }
-
-    @AfterAll
-    static void tearDown() {
-        browser.close();
-        playwright.close();
-    }
+public class PlaywrightLocatorsTest extends PlaywrightTestRunner {
 
     @DisplayName("Locating elements using CSS")
     @Nested
@@ -128,6 +96,7 @@ public class PlaywrightLocatorsTest {
     @DisplayName("Locating visible elements")
     @Nested
     class LocatingVisibleElements {
+
         @BeforeEach
         void openContactPage() {
             openPage();
@@ -197,9 +166,8 @@ public class PlaywrightLocatorsTest {
         @DisplayName("Identifying checkboxes")
         @Test
         void byCheckboxes() {
-            playwright.selectors().setTestIdAttribute("data-test");
-
             openPage();
+
             page.getByLabel("Hammer").click();
             page.getByLabel("Chisels").click();
             page.getByLabel("Wrench").click();
@@ -295,32 +263,19 @@ public class PlaywrightLocatorsTest {
     @Nested
     class LocatingElementsByTestID {
 
-        @BeforeAll
-        static void setTestId() {
-            playwright.selectors().setTestIdAttribute("data-test");
-        }
-
         @DisplayName("Using a custom data-test field")
         @Test
         void byTestId() {
             openPage();
 
-            playwright.selectors().setTestIdAttribute("data-test");
-
             page.getByTestId("search-query").fill("Pliers");
             page.getByTestId("search-submit").click();
         }
-
     }
 
     @DisplayName("Nested locators")
     @Nested
     class NestedLocators {
-
-        @BeforeAll
-        static void setTestId() {
-            playwright.selectors().setTestIdAttribute("data-test");
-        }
 
         @DisplayName("Using roles")
         @Test
@@ -361,7 +316,7 @@ public class PlaywrightLocatorsTest {
                     .filter(new Locator.FilterOptions().setHasText("Sander"))
                     .allTextContents();
 
-            org.assertj.core.api.Assertions.assertThat(allProducts).allMatch(name -> name.contains("Sander"));
+            assertThat(allProducts).allMatch(name -> name.contains("Sander"));
         }
 
         @DisplayName("filtering locators by locator")
@@ -374,13 +329,14 @@ public class PlaywrightLocatorsTest {
                     .getByTestId("product-name")
                     .allTextContents();
 
-            org.assertj.core.api.Assertions.assertThat(allProducts).hasSize(1)
+            assertThat(allProducts).hasSize(1)
                     .allMatch(name -> name.contains("Long Nose Pliers"));
         }
     }
 
     private void openPage() {
         page.navigate("https://practicesoftwaretesting.com");
-        page.waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForLoadState(LoadState.DOMCONTENTLOADED);
+        page.waitForSelector(".card-img-top");
     }
 }

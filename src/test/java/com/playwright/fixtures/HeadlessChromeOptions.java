@@ -1,4 +1,4 @@
-package com.playwright;
+package com.playwright.fixtures;
 
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.junit.Options;
@@ -12,7 +12,7 @@ public class HeadlessChromeOptions implements OptionsFactory {
         return new Options().setLaunchOptions(
                         new BrowserType.LaunchOptions()
                                 .setArgs(Arrays.asList("--no-sandbox", "--disable-extensions", "--disable-gpu"))
-                ).setHeadless(true)
+                ).setHeadless(Boolean.parseBoolean(System.getProperty("headless", "true")))
                 .setTestIdAttribute("data-test");
     }
 }

@@ -1,57 +1,22 @@
-package com.playwright.api;
+package com.playwright.api.mock;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.microsoft.playwright.*;
+import com.microsoft.playwright.junit.UsePlaywright;
+import com.playwright.api.mock.response.MockSearchResponses;
+import com.playwright.fixtures.HeadlessChromeOptions;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.stream.Stream;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class PlaywrightRestAPITest {
-
-    protected static Playwright playwright;
-    protected static Browser browser;
-    protected static BrowserContext browserContext;
-
-    Page page;
-
-    @BeforeAll
-    static void setUpBrowser() {
-        playwright = Playwright.create();
-        playwright.selectors().setTestIdAttribute("data-test");
-        browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions().setHeadless(true)
-                        .setArgs(Arrays.asList("--no-sandbox", "--disable-extensions", "--disable-gpu"))
-        );
-    }
-
-    @BeforeEach
-    void setUp() {
-        browserContext = browser.newContext();
-        page = browserContext.newPage();
-
-        page.navigate("https://practicesoftwaretesting.com");
-        page.getByPlaceholder("Search").waitFor();
-
-    }
-
-    @AfterEach
-    void closeContext() {
-        browserContext.close();
-    }
-
-    @AfterAll
-    static void tearDown() {
-        browser.close();
-        playwright.close();
-    }
+@UsePlaywright(HeadlessChromeOptions.class)
+public class PlaywrightRestAPITest  {
 
     @DisplayName("Playwright allows us to mock out API responses")
     @Nested
@@ -59,7 +24,11 @@ public class PlaywrightRestAPITest {
 
         @Test
         @DisplayName("When a search returns a single product")
-        void whenASingleItemIsFound() {
+        void whenASingleItemIsFound(Page page) {
+
+            page.navigate("https://practicesoftwaretesting.com");
+            page.getByPlaceholder("Search").waitFor();
+
             page.route("**/products/search?q=pliers",
                     route -> route.fulfill(new Route.FulfillOptions()
                             .setBody(MockSearchResponses.RESPONSE_WITH_A_SINGLE_ENTRY)
@@ -78,7 +47,11 @@ public class PlaywrightRestAPITest {
 
         @Test
         @DisplayName("When a search returns no products")
-        void whenNoItemsAreFound() {
+        void whenNoItemsAreFound(Page page) {
+
+            page.navigate("https://practicesoftwaretesting.com");
+            page.getByPlaceholder("Search").waitFor();
+
             page.route("**/products/search?q=pliers",
                     route -> route.fulfill(new Route.FulfillOptions()
                             .setBody(MockSearchResponses.RESPONSE_WITH_NO_ENTRIES)
@@ -102,7 +75,8 @@ public class PlaywrightRestAPITest {
         private static APIRequestContext requestContext;
 
         @BeforeAll
-        public static void setupRequestContext() {
+        public static void setupRequestContext(Playwright playwright) {
+
             requestContext = playwright.request().newContext(
                     new APIRequest.NewContextOptions()
                             .setBaseURL("https://api.practicesoftwaretesting.com")
@@ -115,7 +89,11 @@ public class PlaywrightRestAPITest {
         @DisplayName("Check presence of known products")
         @ParameterizedTest(name = "Checking product {0}")
         @MethodSource("products")
-        void checkKnownProduct(Product product) {
+        void checkKnownProduct(Product product, Page page) {
+
+            page.navigate("https://practicesoftwaretesting.com");
+            page.getByPlaceholder("Search").waitFor();
+
             page.fill("[placeholder='Search']", product.name);
             page.click("button:has-text('Search')");
 

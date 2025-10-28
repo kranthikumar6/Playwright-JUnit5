@@ -2,47 +2,14 @@ package com.playwright.forms;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
+import com.playwright.fixtures.PlaywrightTestRunner;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class PlaywrightAssertionsTest {
-
-    protected static Playwright playwright;
-    protected static Browser browser;
-    protected static BrowserContext browserContext;
-
-    Page page;
-
-    @BeforeAll
-    static void setUpBrowser() {
-        playwright = Playwright.create();
-        playwright.selectors().setTestIdAttribute("data-test");
-        browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions().setHeadless(true)
-                        .setArgs(Arrays.asList("--no-sandbox", "--disable-extensions", "--disable-gpu"))
-        );
-    }
-
-    @BeforeEach
-    void setUp() {
-        browserContext = browser.newContext();
-        page = browserContext.newPage();
-    }
-
-    @AfterEach
-    void closeContext() {
-        browserContext.close();
-    }
-
-    @AfterAll
-    static void tearDown() {
-        browser.close();
-        playwright.close();
-    }
+public class PlaywrightAssertionsTest extends PlaywrightTestRunner {
 
     @DisplayName("Making assertions about the contents of a field")
     @Nested
@@ -94,7 +61,7 @@ public class PlaywrightAssertionsTest {
 
         @BeforeEach
         void openHomePage() {
-            page.navigate("https://practicesoftwaretesting.com");
+            openPage();
             page.waitForCondition(() -> page.getByTestId("product-name").count() > 0);
         }
 
@@ -120,8 +87,8 @@ public class PlaywrightAssertionsTest {
 
         @Test
         void shouldSortInAlphabeticalOrder() {
-            page.getByLabel("Sort").selectOption("Name (A - Z)");
-            page.waitForLoadState(LoadState.NETWORKIDLE);
+
+            page.waitForResponse("**/products*asc*", ()-> page.getByLabel("Sort").selectOption("Name (A - Z)"));
 
             List<String> productNames = page.getByTestId("product-name").allTextContents();
 
@@ -130,13 +97,17 @@ public class PlaywrightAssertionsTest {
 
         @Test
         void shouldSortInReverseAlphabeticalOrder() {
-            page.getByLabel("Sort").selectOption("Name (Z - A)");
-            page.waitForLoadState(LoadState.NETWORKIDLE);
+            page.waitForResponse("**/products*desc*", () -> page.getByLabel("Sort").selectOption("Name (Z - A)"));
 
             List<String> productNames = page.getByTestId("product-name").allTextContents();
 
             Assertions.assertThat(productNames).isSortedAccordingTo(Comparator.reverseOrder());
         }
+    }
 
+    private void openPage() {
+        page.navigate("https://practicesoftwaretesting.com");
+        page.waitForLoadState(LoadState.DOMCONTENTLOADED);
+        page.waitForSelector(".card-img-top");
     }
 }

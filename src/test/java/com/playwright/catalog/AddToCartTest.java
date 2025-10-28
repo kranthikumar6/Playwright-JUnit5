@@ -2,7 +2,7 @@ package com.playwright.catalog;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.junit.UsePlaywright;
-import com.playwright.HeadlessChromeOptions;
+import com.playwright.fixtures.HeadlessChromeOptions;
 import com.playwright.catalog.pageobjects.*;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;

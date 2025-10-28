@@ -2,7 +2,7 @@ package com.playwright.cart;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.junit.UsePlaywright;
-import com.playwright.HeadlessChromeOptions;
+import com.playwright.fixtures.HeadlessChromeOptions;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import java.util.List;

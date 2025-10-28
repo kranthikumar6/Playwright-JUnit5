@@ -3,7 +3,7 @@ package com.playwright.forms;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.junit.UsePlaywright;
 import com.microsoft.playwright.options.AriaRole;
-import com.playwright.HeadlessChromeOptions;
+import com.playwright.fixtures.HeadlessChromeOptions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

@@ -1,14 +1,14 @@
-package com.playwright.api.login2;
+package com.playwright.api.login;
 
 
-import com.playwright.PlaywrightTestCase;
-import com.playwright.api.login.User;
+import com.playwright.fixtures.PlaywrightTestRunner;
+import com.playwright.api.register.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LoginWithRegisteredUserTest extends PlaywrightTestCase {
+public class LoginWithRegisteredUserTest extends PlaywrightTestRunner {
 
     @Test
     @DisplayName("Should be able to login with a registered user")

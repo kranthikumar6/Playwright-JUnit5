@@ -2,55 +2,22 @@ package com.playwright.cart;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import com.playwright.fixtures.PlaywrightTestRunner;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class PlaywrightWaitsTest {
-
-    protected static Playwright playwright;
-    protected static Browser browser;
-    protected static BrowserContext browserContext;
-
-    Page page;
-
-    @BeforeAll
-    static void setUpBrowser() {
-        playwright = Playwright.create();
-        playwright.selectors().setTestIdAttribute("data-test");
-        browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions().setHeadless(true)
-                        .setArgs(Arrays.asList("--no-sandbox", "--disable-extensions", "--disable-gpu"))
-        );
-    }
-
-    @BeforeEach
-    void setUp() {
-        browserContext = browser.newContext();
-        page = browserContext.newPage();
-    }
-
-    @AfterEach
-    void closeContext() {
-        browserContext.close();
-    }
-
-    @AfterAll
-    static void tearDown() {
-        browser.close();
-        playwright.close();
-    }
+public class PlaywrightWaitsTest extends PlaywrightTestRunner {
 
     @Nested
     class WaitingForState {
         @BeforeEach
         void openHomePage() {
-            page.navigate("https://practicesoftwaretesting.com");
-            page.waitForSelector(".card-img-top");
+            openPage();
         }
 
         @Test
@@ -74,7 +41,7 @@ public class PlaywrightWaitsTest {
     class AutomaticWaits {
         @BeforeEach
         void openHomePage() {
-            page.navigate("https://practicesoftwaretesting.com");
+            openPage();
         }
 
         // Automatic wait
@@ -110,7 +77,7 @@ public class PlaywrightWaitsTest {
     class WaitingForElementsToAppearAndDisappear {
         @BeforeEach
         void openHomePage() {
-            page.navigate("https://practicesoftwaretesting.com");
+            openPage();
         }
 
         @Test
@@ -156,7 +123,7 @@ public class PlaywrightWaitsTest {
 
         @Test
         void sortByDescendingPrice() {
-            page.navigate("https://practicesoftwaretesting.com");
+            openPage();
 
             page.getByTestId("sort").selectOption("Price (High - Low)");
 
@@ -179,7 +146,7 @@ public class PlaywrightWaitsTest {
 
         @Test
         void sortByAscendingPrice() {
-            page.navigate("https://practicesoftwaretesting.com");
+            openPage();
 
             // Sort by ascending price
             page.waitForResponse("**/products*asc*",
@@ -201,5 +168,11 @@ public class PlaywrightWaitsTest {
         private static double extractPrice(String price) {
             return Double.parseDouble(price.replace("$", ""));
         }
+    }
+
+    private void openPage() {
+        page.navigate("https://practicesoftwaretesting.com");
+        page.waitForLoadState(LoadState.DOMCONTENTLOADED);
+        page.waitForSelector(".card-img-top");
     }
 }

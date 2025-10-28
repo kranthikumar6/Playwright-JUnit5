@@ -1,4 +1,4 @@
-package com.playwright.api.login;
+package com.playwright.api.register;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
