@@ -5,6 +5,7 @@ import com.playwright.fixtures.ScreenshotManager;
 import io.qameta.allure.Step;
 
 public class NavBar {
+
     private final Page page;
 
     public NavBar(Page page) {

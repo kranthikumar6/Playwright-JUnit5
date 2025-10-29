@@ -3,17 +3,16 @@ package com.playwright.contact;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
-
 import java.nio.file.Path;
 
 public class ContactForm {
     private final Page page;
-    private Locator firstNameField;
-    private Locator lastNameField;
-    private Locator emailNameField;
-    private Locator messageField;
-    private Locator subjectField;
-    private Locator sendButton;
+    private final Locator firstNameField;
+    private final Locator lastNameField;
+    private final Locator emailNameField;
+    private final Locator messageField;
+    private final Locator subjectField;
+    private final Locator sendButton;
 
     public ContactForm(Page page) {
         this.page = page;

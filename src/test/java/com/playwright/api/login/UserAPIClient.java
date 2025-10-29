@@ -5,6 +5,7 @@ import com.microsoft.playwright.options.RequestOptions;
 import com.playwright.api.register.User;
 
 public class UserAPIClient {
+
     private final Page page;
 
     private static final String REGISTER_USER = "https://api.practicesoftwaretesting.com/users/register";

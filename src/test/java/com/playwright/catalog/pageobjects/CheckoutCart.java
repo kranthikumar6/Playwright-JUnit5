@@ -4,6 +4,7 @@ import com.microsoft.playwright.Page;
 import java.util.List;
 
 public class CheckoutCart {
+
     private final Page page;
 
     public CheckoutCart(Page page) {

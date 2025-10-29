@@ -5,6 +5,7 @@ import com.microsoft.playwright.options.AriaRole;
 import io.qameta.allure.Step;
 
 public class SearchComponent {
+
     private final Page page;
 
     public SearchComponent(Page page) {

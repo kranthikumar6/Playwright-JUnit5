@@ -5,6 +5,7 @@ import com.microsoft.playwright.options.AriaRole;
 import com.playwright.api.register.User;
 
 public class LoginPage {
+
     private final Page page;
 
     public LoginPage(Page page) {

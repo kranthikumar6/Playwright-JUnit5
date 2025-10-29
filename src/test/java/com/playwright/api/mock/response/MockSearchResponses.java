@@ -1,6 +1,7 @@
 package com.playwright.api.mock.response;
 
 public class MockSearchResponses {
+
     public static final String RESPONSE_WITH_A_SINGLE_ENTRY = """
             {
                 "current_page": 1,

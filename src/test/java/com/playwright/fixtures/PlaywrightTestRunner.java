@@ -29,17 +29,11 @@ public abstract class PlaywrightTestRunner {
         BrowserType browserType;
         Playwright pw = playwright.get();
 
-        switch (browserName) {
-            case "firefox":
-                browserType = pw.firefox();
-                break;
-            case "webkit":
-                browserType = pw.webkit();
-                break;
-            case "chromium":
-            default:
-                browserType = pw.chromium();
-        }
+        browserType = switch (browserName) {
+            case "firefox" -> pw.firefox();
+            case "webkit" -> pw.webkit();
+            default -> pw.chromium();
+        };
 
         BrowserType.LaunchOptions options = new BrowserType.LaunchOptions()
                 .setHeadless(Boolean.parseBoolean(System.getProperty("headless", "true")))

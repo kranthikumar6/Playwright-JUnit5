@@ -6,6 +6,7 @@ import com.playwright.fixtures.ScreenshotManager;
 import io.qameta.allure.Step;
 
 public class ProductDetails {
+
     private final Page page;
 
     public ProductDetails(Page page) {
@@ -13,7 +14,7 @@ public class ProductDetails {
     }
 
     @Step("Increase quantity")
-    public void increaseQuanityBy(int increment) {
+    public void increaseQuantityBy(int increment) {
         for (int i = 1; i <= increment; i++) {
             page.getByTestId("increase-quantity").click();
         }

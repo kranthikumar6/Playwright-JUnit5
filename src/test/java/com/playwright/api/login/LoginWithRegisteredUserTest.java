@@ -5,7 +5,6 @@ import com.playwright.fixtures.PlaywrightTestRunner;
 import com.playwright.api.register.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginWithRegisteredUserTest extends PlaywrightTestRunner {

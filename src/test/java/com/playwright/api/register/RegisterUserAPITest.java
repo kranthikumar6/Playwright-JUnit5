@@ -17,7 +17,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 public class RegisterUserAPITest {
 
     private APIRequestContext request;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @BeforeEach
     void setup(Playwright playwright) {

@@ -3,10 +3,10 @@ package com.playwright.catalog.pageobjects;
 import com.microsoft.playwright.Page;
 import com.playwright.fixtures.ScreenshotManager;
 import io.qameta.allure.Step;
-
 import java.util.List;
 
 public class ProductList {
+
     private final Page page;
 
     public ProductList(Page page) {

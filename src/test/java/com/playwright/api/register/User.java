@@ -1,7 +1,6 @@
 package com.playwright.api.register;
 
 import net.datafaker.Faker;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -13,6 +12,7 @@ public record User(
         String dob,
         String password,
         String email) {
+
     public static User randomUser() {
         Faker fake = new Faker();
 
@@ -51,7 +51,6 @@ public record User(
     }
 
     public User withFirstName(String first_name) {
-        return new User(first_name,last_name,address,phone,dob,password,email);
+        return new User(first_name, last_name, address, phone, dob, password, email);
     }
-
 }

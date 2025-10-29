@@ -66,7 +66,6 @@ public class ContactFormTest {
 
         // Clear one of the fields
         contactForm.clearField(fieldName);
-
         contactForm.submitForm();
 
         // Check the error message for that field
@@ -79,7 +78,6 @@ public class ContactFormTest {
     @DisplayName("The message must be at least 50 characters long")
     @Test
     void messageTooShort(Page page) {
-
         contactForm.setFirstName("Sarah-Jane");
         contactForm.setLastName("Smith");
         contactForm.setEmail("sarah@example.com");

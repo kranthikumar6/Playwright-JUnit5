@@ -10,13 +10,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 
 @DisplayName("Shopping Cart")
 @Feature("Shopping Cart")
 @UsePlaywright(HeadlessChromeOptions.class)
-public class AddToCartTest  {
+public class AddToCartTest {
 
     SearchComponent searchComponent;
     ProductList productList;
@@ -46,7 +45,7 @@ public class AddToCartTest  {
         searchComponent.searchBy("pliers");
         productList.viewProductDetails("Combination Pliers");
 
-        productDetails.increaseQuanityBy(2);
+        productDetails.increaseQuantityBy(2);
         productDetails.addToCart();
 
         navBar.openCart();
@@ -70,7 +69,7 @@ public class AddToCartTest  {
         navBar.openHomePage();
 
         productList.viewProductDetails("Bolt Cutters");
-        productDetails.increaseQuanityBy(2);
+        productDetails.increaseQuantityBy(2);
         productDetails.addToCart();
 
         navBar.openHomePage();
