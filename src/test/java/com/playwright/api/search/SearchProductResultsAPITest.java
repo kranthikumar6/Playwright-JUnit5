@@ -1,4 +1,4 @@
-package com.playwright.api.serach;
+package com.playwright.api.search;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
